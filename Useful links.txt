@@ -1,0 +1,10 @@
+Useful links:
+
+https://wiki.openstreetmap.org/wiki/Map_Features
+
+https://docs.mongodb.org/manual/
+https://api.mongodb.org/python/current/
+
+https://docs.python.org/2/howto/unicode.html
+http://habrahabr.ru/post/135913/
+https://docs.python.org/2/library/re.html
