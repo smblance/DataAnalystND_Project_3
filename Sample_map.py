@@ -3,6 +3,8 @@
 
 import xml.etree.ElementTree as ET  # Use cElementTree or lxml if too slow
 
+'''This file is provided by Udacity'''
+
 OSM_FILE = "Moscow - SW.osm"  # Replace this with your osm file
 SAMPLE_FILE = "sample.osm"
 
