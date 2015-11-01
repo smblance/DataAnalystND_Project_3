@@ -201,13 +201,15 @@ def clean_phone(data):
 
 data = read_json('data.json')
 tags = [x[0] for x in read_json('Tag_frequencies.json')] #dictionary: {tag : number of ocurrencies}
-remove_dot_from_tags(data)
-data = clean_housenumbers(data)
-print "Some of the phones not in form of +7 *** *******:\n", audit_phone(data)[:10]
-data, phone_codes = clean_phone(data)
-print "Bad latitude and longitude:\n", audit_coords(data)
-print "Postcodes not in postcodes list:\n", audit_postcode(data, tags)
-write_json(data, 'data_cleaned.json')
+
+if __name__ == '__main__':	
+	remove_dot_from_tags(data)
+	data = clean_housenumbers(data)
+	print "Some of the phones not in form of +7 *** *******:\n", audit_phone(data)[:10]
+	data, phone_codes = clean_phone(data)
+	print "Bad latitude and longitude:\n", audit_coords(data)
+	print "Postcodes not in postcodes list:\n", audit_postcode(data, tags)
+	write_json(data, 'data_cleaned.json')
 
 
 

@@ -8,11 +8,19 @@ import matplotlib.pyplot as plt
 client = MongoClient("mongodb://localhost:27017")
 db = client.osm
 
-#Count bus stops with/without shelter
-bus_stops_total = db.main.find({'highway':'bus_stop'}).count()
-bus_stops_with_shelter = db.main.find({'highway':'bus_stop'}, {'shelter' : {'$exists':1}}).count()
+#Count bus stops with/without shelter (only where shelter data is present)
+bus = db.main.aggregate([
+		{'$match' : {'highway' : 'bus_stop', 'shelter' : {'$in' : ['yes','no']}}}, \
+		{'$group' : {'_id' : '$shelter', 'count' : {'$sum' : 1}}}, \
+		{'$sort' : {'count' : -1}} \
+	])
+for x in bus:
+	if x['_id'] == 'yes':
+		bus_stops_with_shelter = x['count']
+	elif x['_id'] == 'no': 
+		bus_stops_without_shelter = x['count']
 print 'Bus stops with shelter: ', bus_stops_with_shelter
-print 'Bus stops without: ', bus_stops_total - bus_stops_without_shelter
+print 'Bus stops without shelter: ', bus_stops_without_shelter
 print '-------------------'
 
 #Most popular leisure types
@@ -27,9 +35,9 @@ for x in leisure_types:
 	print x
 print '-------------------'
 
-#Most popular sports
+#Most popular sports.
 sports = db.main.aggregate([ \
-	{'$match' : {'sport' : {'$exists' : 1}}}, \
+	{'$match' : {'sport' : {'$exists' : 1, '$ne' : 'multi'}}}, \
 	{'$group' : {'_id' : '$sport', 'count': {'$sum': 1}}}, \
 	{'$sort' : {'count' : -1}}, \
 	{'$limit' : 5} \
@@ -63,14 +71,14 @@ for x in cusines:
 	print x
 print '-------------------'
 
-#Most popular cuisines
+#Most popular amenities
 amenities = db.main.aggregate([ \
 	{'$match' : {'amenity' : {'$exists' : 1}}}, \
 	{'$group' : {'_id' : '$amenity', 'count': {'$sum': 1}}}, \
 	{'$sort' : {'count' : -1}}, \
 	{'$limit' : 5} \
 	])
-print 'Most popular cuisines:'
+print 'Most popular amenities:'
 for x in amenities:
 	print x
 

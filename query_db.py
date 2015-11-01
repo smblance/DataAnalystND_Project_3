@@ -44,7 +44,7 @@ while c < size/100.:
 greater_that_one_pct = [x for x in contributions_per_user if x > size/100.]
 
 print "Number of unique users:",len(user_data)
-print "Top contributing user: name - %s, entries - %s."%(user_data[0]['_id'],user_data[0]['count'])
+print "Top contributing user: %s, %s entries."%(user_data[0]['_id'],user_data[0]['count'])
 print "Users, who made at least 1%% of entries each: %s."%len(greater_that_one_pct)
 print "These users combined made %i%% of the entries."%(float(sum(greater_that_one_pct))/size*100)
 print "So, users, who made less than 1%% of entries (less than %i), together made %i%% of the entries."%(size/100.,(1-float(sum(greater_that_one_pct))/size)*100)
