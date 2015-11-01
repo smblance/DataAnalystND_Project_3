@@ -3,7 +3,6 @@
 
 from pymongo import MongoClient
 import json
-import matplotlib.pyplot as plt
 
 client = MongoClient("mongodb://localhost:27017")
 db = client.osm
